@@ -4,107 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personalized Investment Portfolio Advisor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
             background: radial-gradient(circle, #f3f4f6, #e5e7eb);
             color: #1f2937;
-            overflow-x: hidden;
-            transition: background 0.3s ease, color 0.3s ease;
         }
         body.dark-mode {
             background: radial-gradient(circle, #1e293b, #0f172a);
             color: #f1f5f9;
         }
-        .container {
-            max-width: 1000px;
-            margin: 80px auto;
-            padding: 40px;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            transform: scale(1);
-            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
-        }
-        .container.dark-mode {
-            background: #1e293b;
-            color: #f1f5f9;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #2563eb;
-        }
-        body.dark-mode h1 {
-            color: #3b82f6;
-        }
-        p {
-            font-size: 1.2rem;
-            line-height: 1.9;
-            margin: 1.8rem 0;
-            color: #374151;
-        }
-        body.dark-mode p {
-            color: #e5e7eb;
-        }
-        .list li {
-            color: #4b5563;
-        }
-        body.dark-mode .list li {
-            color: #cbd5e1;
-        }
-        .outcomes {
-            background: #f9fafb;
-            padding: 30px;
-            border-left: 6px solid #2563eb;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-        .outcomes.dark-mode {
-            background: #334155;
-            border-left: 6px solid #3b82f6;
-        }
-        .cta a {
-            display: inline-block;
-            padding: 14px 28px;
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
-            transition: background 0.4s ease, transform 0.2s ease;
-        }
-        .cta a:hover {
-            background: linear-gradient(90deg, #1d4ed8, #2563eb);
-            transform: translateY(-3px);
-        }
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            font-size: 1rem;
-            color: #6b7280;
-            background: #f3f4f6;
-            padding: 20px 0;
-            border-top: 1px solid #e5e7eb;
-        }
-        body.dark-mode footer {
-            background: #1e293b;
-            color: #cbd5e1;
-        }
-        /* Circular Button for Dark Mode */
         .dark-mode-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
             width: 50px;
             height: 50px;
-            border: none;
             border-radius: 50%;
             background: #2563eb;
             color: white;
@@ -113,7 +28,6 @@
             justify-content: center;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
             transition: background 0.3s ease, transform 0.2s ease;
         }
         .dark-mode-toggle:hover {
@@ -141,49 +55,41 @@
         <span class="moon">🌙</span>
     </button>
 
-    <div class="container">
-        <h1>Personalized Investment Portfolio Advisor</h1>
-        <p>
-            In the realm of financial advisory, personalization is key to meeting diverse client needs. 
-            Individuals vary significantly in their risk tolerance, financial goals, and investment timelines, 
-            making a one-size-fits-all approach ineffective.
-        </p>
-        <p>
-            The objective is to develop a Personalized Investment Portfolio Advisor using Lyzr's API, enabling 
-            financial institutions or individual advisors to provide tailored investment strategies. 
-            The advisor should analyze inputs such as the client’s:
-        </p>
-        <ul class="list">
-            <li>Risk tolerance (conservative, moderate, or aggressive)</li>
-            <li>Financial goals (retirement, education, wealth accumulation, etc.)</li>
-            <li>Timeline (short-term, medium-term, or long-term)</li>
-            <li>Current financial standing (income, expenses, savings, debt levels)</li>
-            <li>Market data to align strategies with ongoing trends and opportunities</li>
-        </ul>
-        <div class="outcomes">
-            <h2>Desired Outcomes</h2>
-            <ul>
-                <li>Hyper-personalization by dynamically adjusting strategies based on real-time client inputs and market data.</li>
-                <li>Scalability to handle multiple clients without sacrificing quality or accuracy.</li>
-                <li>Transparency by explaining the rationale behind each recommendation.</li>
-                <li>Automation to reduce manual intervention in generating recommendations.</li>
-                <li>Compliance with local financial regulations.</li>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Personalized Investment Portfolio Advisor</h1>
+
+            <p class="text-gray-700 mb-6">
+                In the realm of financial advisory, personalization is key to meeting diverse client needs. Individuals vary significantly in their risk tolerance, financial goals, and investment timelines, making a one-size-fits-all approach ineffective.
+            </p>
+
+            <p class="text-gray-700 mb-6">
+                The objective is to develop a Personalized Investment Portfolio Advisor using Lyzr's API, enabling financial institutions or individual advisors to provide tailored investment strategies.
+            </p>
+
+            <ul class="list-disc pl-6 text-gray-700 mb-6">
+                <li>Risk tolerance (conservative, moderate, or aggressive)</li>
+                <li>Financial goals (retirement, education, wealth accumulation, etc.)</li>
+                <li>Timeline (short-term, medium-term, or long-term)</li>
+                <li>Current financial standing (income, expenses, savings, debt levels)</li>
+                <li>Market data to align strategies with ongoing trends and opportunities</li>
             </ul>
-        </div>
-        <div class="cta">
-            <a href="#">Get Started with Lyzr's API</a>
+
+            <div class="text-center">
+                <a 
+                    href="/static/portfolio-advisor.html" 
+                    target="_blank"
+                    class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-200"
+                >
+                    Get Started with Lyzr's API
+                </a>
+            </div>
         </div>
     </div>
-    <footer>
-        <p>Designed with ❤️✨ by Team STARDUST! Learn more about <a href="#">Lyzr's API</a>.</p>
-    </footer>
 
     <script>
-        // Function to toggle dark mode
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
-            document.querySelector('.container').classList.toggle('dark-mode');
-            document.querySelector('.outcomes').classList.toggle('dark-mode');
         }
     </script>
 </body>
