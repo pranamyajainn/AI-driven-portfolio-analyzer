@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Portfolio Advisor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div id="second-interface" class="bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">AI Portfolio Advisor</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="space-y-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Risk Tolerance</label>
+                    <select id="risk-tolerance" class="w-full p-2 border rounded">
+                        <option value="Moderate">Moderate</option>
+                        <option value="Conservative">Conservative</option>
+                        <option value="Aggressive">Aggressive</option>
+                    </select>
+                </div>
+                <div class="space-y-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Investment Timeline</label>
+                    <select id="timeline" class="w-full p-2 border rounded">
+                        <option value="Medium-term">Medium-term</option>
+                        <option value="Short-term">Short-term</option>
+                        <option value="Long-term">Long-term</option>
+                    </select>
+                </div>
+            </div>
+            <textarea id="portfolio-details" class="w-full h-32 p-2 border rounded" placeholder="Enter portfolio details here..."></textarea>
+            <button onclick="analyzePortfolio()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 mt-4">
+                Analyze Portfolio
+            </button>
+        </div>
+        <div id="result" class="mt-6"></div>
+    </div>
+
+    <script>
+        function analyzePortfolio() {
+            const details = document.getElementById("portfolio-details").value;
+            const riskTolerance = document.getElementById("risk-tolerance").value;
+            const timeline = document.getElementById("timeline").value;
+
+            if (!details) {
+                alert("Please enter portfolio details!");
+                return;
+            }
+
+            fetch("/api/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ details, risk_tolerance: riskTolerance, timeline }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        document.getElementById("result").innerHTML = data.data;
+                    } else {
+                        alert(`Error: ${data.error}`);
+                    }
+                })
+                .catch((error) => alert("An error occurred! Please try again."));
+        }
+    </script>
+</body>
+</html>
