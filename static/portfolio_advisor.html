@@ -3,65 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Portfolio Advisor</title>
+    <title>AI Powered Personalized Portfolio Advisor</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #f4f4f9, #d9d9e3);
+            color: #333333;
+            transition: all 0.3s ease-in-out;
+        }
+        body.dark {
+            background: linear-gradient(to bottom, #1f1f2e, #292945);
+            color: #f1f5f9;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease-in-out;
+        }
+        body.dark .card {
+            background: #2a2a3b;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #6a5acd, #836fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cta-button {
+            background: linear-gradient(to right, #6a5acd, #836fff);
+            color: #ffffff;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+        .cta-button:hover {
+            box-shadow: 0 4px 12px rgba(106, 90, 205, 0.6);
+            transform: translateY(-3px);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #6a5acd;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+        body.dark .dark-mode-toggle {
+            background: #836fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+    </style>
 </head>
-<body>
-    <div class="container mx-auto px-4 py-8">
-        <div id="second-interface" class="bg-white rounded-lg shadow-lg p-6">
-            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">AI Powered Personalized Investment Portfolio Advisor</h1>
+<body x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" :class="{ dark: darkMode }">
+
+    <!-- Dark Mode Toggle -->
+    <div 
+        class="dark-mode-toggle" 
+        @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
+    >
+        <span x-show="!darkMode">☀️</span>
+        <span x-show="darkMode">🌙</span>
+    </div>
+
+    <div class="container mx-auto px-6 py-12">
+        <!-- Card Section -->
+        <div class="card">
+            <h1 class="text-4xl font-extrabold text-center gradient-text mb-6">
+                AI Powered Personalized Investment Portfolio Advisor
+            </h1>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div class="space-y-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Risk Tolerance</label>
-                    <select id="risk-tolerance" class="w-full p-2 border rounded">
+                    <label class="block text-lg text-gray-700 dark:text-gray-300 font-semibold">
+                        Risk Tolerance
+                    </label>
+                    <select id="risk-tolerance" class="w-full p-3 border rounded bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">
                         <option value="Moderate">Moderate</option>
                         <option value="Conservative">Conservative</option>
                         <option value="Aggressive">Aggressive</option>
                     </select>
                 </div>
                 <div class="space-y-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Investment Timeline</label>
-                    <select id="timeline" class="w-full p-2 border rounded">
+                    <label class="block text-lg text-gray-700 dark:text-gray-300 font-semibold">
+                        Investment Timeline
+                    </label>
+                    <select id="timeline" class="w-full p-3 border rounded bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">
                         <option value="Medium-term">Medium-term</option>
                         <option value="Short-term">Short-term</option>
                         <option value="Long-term">Long-term</option>
                     </select>
                 </div>
             </div>
-            <textarea id="portfolio-details" class="w-full h-32 p-2 border rounded" placeholder="Enter portfolio details here..."></textarea>
-            <button onclick="analyzePortfolio()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 mt-4">
+            <textarea id="portfolio-details" class="w-full h-32 p-3 border rounded bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" placeholder="Enter portfolio details here..."></textarea>
+            <button onclick="analyzePortfolio()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 mt-4 cta-button">
                 Analyze Portfolio
             </button>
         </div>
         <div id="result" class="mt-6"></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.9.1/dist/cdn.min.js"></script>
     <script>
         function analyzePortfolio() {
-    const details = document.getElementById("portfolio-details").value;
-    const riskTolerance = document.getElementById("risk-tolerance").value;
-    const timeline = document.getElementById("timeline").value;
+            const details = document.getElementById("portfolio-details").value;
+            const riskTolerance = document.getElementById("risk-tolerance").value;
+            const timeline = document.getElementById("timeline").value;
 
-    if (!details) {
-        alert("Please enter portfolio details!");
-        return;
-    }
-
-    fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ details, risk_tolerance: riskTolerance, timeline }),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.success) {
-                document.getElementById("result").innerHTML = data.data;
-            } else {
-                alert(`Error: ${data.error}`);
+            if (!details) {
+                alert("Please enter portfolio details!");
+                return;
             }
-        })
-        .catch((error) => alert("An error occurred! Please try again."));
-}
+
+            fetch("/api/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ details, risk_tolerance: riskTolerance, timeline }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        document.getElementById("result").innerHTML = data.data;
+                    } else {
+                        alert(`Error: ${data.error}`);
+                    }
+                })
+                .catch((error) => alert("An error occurred! Please try again."));
+        }
     </script>
 </body>
 </html>
