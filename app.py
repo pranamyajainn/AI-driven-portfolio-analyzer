@@ -157,11 +157,11 @@ def analyze_portfolio():
         data = request.json
         if not data:
             return jsonify({"success": False, "error": "No data received"}), 400
-            
+
         portfolio_text = data.get("details", "")
         if not portfolio_text:
             return jsonify({"success": False, "error": "Portfolio details are required"}), 400
-            
+
         risk_tolerance = data.get("risk_tolerance", "Moderate")
         timeline = data.get("timeline", "Medium-term")
 
@@ -178,28 +178,53 @@ def analyze_portfolio():
         Risk tolerance: {risk_tolerance}
         Investment timeline: {timeline}
         """)
-        
+
         portfolio_analysis = json.loads(analysis_result)
-        
+
         # Fetch market data for symbols
         market_data = get_stock_data(portfolio_analysis['symbols'])
 
         # Generate visualization
         plot_url = generate_visualization(portfolio_analysis['allocation'], market_data)
 
+        # Format the response as HTML
+        formatted_response = f"""
+        <h3><b>Portfolio Analysis</b></h3>
+        <ul>
+            <li><b>Stocks</b>: {portfolio_analysis['allocation']['stocks']}%</li>
+            <li><b>Bonds</b>: {portfolio_analysis['allocation']['bonds']}%</li>
+            <li><b>ETFs</b>: {portfolio_analysis['allocation']['etfs']}%</li>
+            <li><b>Cash</b>: {portfolio_analysis['allocation']['cash']}%</li>
+        </ul>
+        <h4><b>Recommendations:</b></h4>
+        <ul>
+            {''.join([f"<li>{rec}</li>" for rec in portfolio_analysis['recommendations']])}
+        </ul>
+        <h4><b>Risk Assessment:</b></h4>
+        <p>{portfolio_analysis['risk_assessment']}</p>
+        <h4><b>Symbols:</b></h4>
+        <ul>
+            {''.join([f"<li>{symbol}</li>" for symbol in portfolio_analysis['symbols']])}
+        </ul>
+        <h3><b>Market Data</b></h3>
+        <ul>
+            {''.join([f"<li><b>{symbol}</b>: Current Price: ${market_data[symbol]['current_price']:.2f}, Price Change: {market_data[symbol]['price_change']:.2f}%, Volatility: {market_data[symbol]['volatility']:.2f}%</li>" for symbol in market_data])}
+        </ul>
+        <h3><b>Visualization</b></h3>
+        <img src="data:image/png;base64,{plot_url}" alt="Portfolio Visualization" style="max-width:100%; height:auto;">
+        """
+
         return jsonify({
             "success": True,
-            "portfolio_analysis": portfolio_analysis,
-            "market_data": market_data,
-            "visualization": plot_url,
+            "data": formatted_response
         })
 
     except Exception as e:
         import traceback
         error_details = traceback.format_exc()
         return jsonify({
-            "success": False, 
-            "error": f"Analysis failed: {str(e)}", 
+            "success": False,
+            "error": f"Analysis failed: {str(e)}",
             "details": error_details
         }), 500
 
