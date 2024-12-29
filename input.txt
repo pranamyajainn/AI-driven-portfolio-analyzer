@@ -1,0 +1,34 @@
+THE CURRECT FUNCTIONALITY IS BASED ON JSON INPUT, YOU CAN TEST THE PRODUCT WITH THESE INPUTS:
+
+
+Portfolio 1:
+AAPL: 30%
+GOOGL: 25%
+TSLA: 15%
+ETFs: 5%
+Cash: 5%
+
+Portfolio 2:
+
+My portfolio:
+MSFT: 40%
+AMZN: 20%
+NVDA: 15%
+Bonds: 10%
+Cash: 5%
+
+Portfolio 3:
+
+My portfolio:
+META: 25%
+AAPL: 25%
+TSLA: 20%
+ETFs: 20%
+Cash: 10%
+
+Portfolio 4:
+GOOGL: 35%
+MSFT: 30%
+Bonds: 15%
+Gold ETFs: 10%
+Cash: 10%
