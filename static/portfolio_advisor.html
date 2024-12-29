@@ -9,7 +9,7 @@
 <body>
     <div class="container mx-auto px-4 py-8">
         <div id="second-interface" class="bg-white rounded-lg shadow-lg p-6">
-            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">AI Portfolio Advisor</h1>
+            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">AI Powered Personalized Investment Portfolio Advisor</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div class="space-y-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2">Risk Tolerance</label>
@@ -38,7 +38,7 @@
 
     <script>
         function analyzePortfolio() {
-    const details = document.getElementById("portfolio-details").value.trim();
+    const details = document.getElementById("portfolio-details").value;
     const riskTolerance = document.getElementById("risk-tolerance").value;
     const timeline = document.getElementById("timeline").value;
 
@@ -50,44 +50,18 @@
     fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            details,
-            risk_tolerance: riskTolerance,
-            timeline,
-        }),
+        body: JSON.stringify({ details, risk_tolerance: riskTolerance, timeline }),
     })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
+        .then((response) => response.json())
         .then((data) => {
             if (data.success) {
-                const analysis = data.portfolio_analysis;
-                const marketData = data.market_data;
-                const visualization = data.visualization;
-
-                // Render results to the page
-                const resultDiv = document.getElementById("result");
-                resultDiv.innerHTML = `
-                    <h3>Portfolio Analysis</h3>
-                    <pre>${JSON.stringify(analysis, null, 2)}</pre>
-                    <h3>Market Data</h3>
-                    <pre>${JSON.stringify(marketData, null, 2)}</pre>
-                    <h3>Visualization</h3>
-                    <img src="data:image/png;base64,${visualization}" alt="Portfolio Visualization" />
-                `;
+                document.getElementById("result").innerHTML = data.data;
             } else {
                 alert(`Error: ${data.error}`);
             }
         })
-        .catch((error) => {
-            console.error("Error:", error);
-            alert("An error occurred while analyzing the portfolio. Please try again.");
-        });
+        .catch((error) => alert("An error occurred! Please try again."));
 }
-
     </script>
 </body>
 </html>
