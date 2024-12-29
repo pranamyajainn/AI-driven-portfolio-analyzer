@@ -1,5 +1,0 @@
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-print("LYZR_API_KEY:", os.getenv("LYZR_API_KEY"))
