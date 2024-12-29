@@ -38,30 +38,56 @@
 
     <script>
         function analyzePortfolio() {
-            const details = document.getElementById("portfolio-details").value;
-            const riskTolerance = document.getElementById("risk-tolerance").value;
-            const timeline = document.getElementById("timeline").value;
+    const details = document.getElementById("portfolio-details").value.trim();
+    const riskTolerance = document.getElementById("risk-tolerance").value;
+    const timeline = document.getElementById("timeline").value;
 
-            if (!details) {
-                alert("Please enter portfolio details!");
-                return;
+    if (!details) {
+        alert("Please enter portfolio details!");
+        return;
+    }
+
+    fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            details,
+            risk_tolerance: riskTolerance,
+            timeline,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success) {
+                const analysis = data.portfolio_analysis;
+                const marketData = data.market_data;
+                const visualization = data.visualization;
 
-            fetch("/api/analyze", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ details, risk_tolerance: riskTolerance, timeline }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
-                        document.getElementById("result").innerHTML = data.data;
-                    } else {
-                        alert(`Error: ${data.error}`);
-                    }
-                })
-                .catch((error) => alert("An error occurred! Please try again."));
-        }
+                // Render results to the page
+                const resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = `
+                    <h3>Portfolio Analysis</h3>
+                    <pre>${JSON.stringify(analysis, null, 2)}</pre>
+                    <h3>Market Data</h3>
+                    <pre>${JSON.stringify(marketData, null, 2)}</pre>
+                    <h3>Visualization</h3>
+                    <img src="data:image/png;base64,${visualization}" alt="Portfolio Visualization" />
+                `;
+            } else {
+                alert(`Error: ${data.error}`);
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            alert("An error occurred while analyzing the portfolio. Please try again.");
+        });
+}
+
     </script>
 </body>
 </html>
