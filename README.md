@@ -1,4 +1,4 @@
-##Personalized Investment Portfolio Advisor
+Personalized Investment Portfolio Advisor
 
 #Introduction:
 
